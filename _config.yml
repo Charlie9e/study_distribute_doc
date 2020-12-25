@@ -20,13 +20,12 @@
 
 title: Charlie's Blog
 subtitle: 坚持党的领导
-list_title: Study Docs
 email: 2657172548@qq.com
-description: study
+description: 好好学习, 天天向上
 baseurl: "/study_distribute_doc" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+# twitter_username: 
+# github_username:  jekyll
 
 # Build settings
 theme: minima

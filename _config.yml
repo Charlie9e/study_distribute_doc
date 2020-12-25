@@ -20,6 +20,7 @@
 
 title: Charlie's Blog
 subtitle: 坚持党的领导
+list_title: Study Docs
 email: 2657172548@qq.com
 description: study
 baseurl: "/study_distribute_doc" # the subpath of your site, e.g. /blog

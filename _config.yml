@@ -18,7 +18,8 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Charlie's Blog
+title: 方圆有理's Blog
+author: 方圆有理 
 subtitle: 坚持党的领导
 email: 2657172548@qq.com
 description: 好好学习, 天天向上

@@ -8,8 +8,8 @@ categories: Raspberry
 # 安装Ubuntu
 
 * 下载镜像
-	* [官网镜像](https://cdimage.ubuntu.com/releases/20.10/release/)
-	* [清华镜像](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/ubuntu/releases/20.10/release/)
+	- [官网镜像](https://cdimage.ubuntu.com/releases/20.10/release/)
+	- [清华镜像](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/ubuntu/releases/20.10/release/)
 
 * 烧录镜像
 ```shell
@@ -21,6 +21,9 @@ diskutil unmountDisk /dev/disk5
 ```
 
 * 启动树莓派
+	- 插入sd卡
+	- 连接键盘 屏幕
+	- 开机
 
 
 # 连接wifi
@@ -37,14 +40,61 @@ netplan apply
 ping 192.168.1.1 > /dev/null &
 ```
 
+
 # apt-get源调整
 ```shell
 vi /etc/apt/sources.list
 # 批量替换 :%s/ports.ubuntu.com/mirrors.aliyun.com/g
 sudo apt-get update
+apt list –installed
 ```
 
 
 # 安装必备软件
 
-## 
+## Docker
+- 安装
+```shell
+sudo apt install docker.io
+docker -v
+```
+
+# 常用指令记录
+```shell
+uname -a               # 查看内核/操作系统/CPU信息
+lsb_release -a         # 查看操作系统版本 (适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb)   
+cat /proc/cpuinfo      # 查看CPU信息
+hostname               # 查看计算机名
+lspci -tv              # 列出所有PCI设备
+lsusb -tv              # 列出所有USB设备
+lsmod                  # 列出加载的内核模块
+env                    # 查看环境变量
+free -m                # 查看内存使用量和交换区使用量
+df -h                  # 查看各分区使用情况
+du -sh <目录名>        # 查看指定目录的大小
+grep MemTotal /proc/meminfo   # 查看内存总量
+grep MemFree /proc/meminfo    # 查看空闲内存量
+uptime                 # 查看系统运行时间、用户数、负载
+cat /proc/loadavg      # 查看系统负载
+mount | column -t      # 查看挂接的分区状态
+fdisk -l               # 查看所有分区
+swapon -s              # 查看所有交换分区
+hdparm -i /dev/hda     # 查看磁盘参数(仅适用于IDE设备)
+dmesg | grep IDE       # 查看启动时IDE设备检测状况
+ifconfig               # 查看所有网络接口的属性
+iptables -L            # 查看防火墙设置
+route -n               # 查看路由表
+netstat -lntp          # 查看所有监听端口
+netstat -antp          # 查看所有已经建立的连接
+netstat -s             # 查看网络统计信息
+ps -ef                 # 查看所有进程
+top                    # 实时显示进程状态
+w                      # 查看活动用户
+id <用户名>            # 查看指定用户信息
+last                   # 查看用户登录日志
+cut -d: -f1 /etc/passwd   # 查看系统所有用户
+cut -d: -f1 /etc/group    # 查看系统所有组
+crontab -l             # 查看当前用户的计划任务
+chkconfig --list       # 列出所有系统服务
+chkconfig --list | grep on    # 列出所有启动的系统服务
+```

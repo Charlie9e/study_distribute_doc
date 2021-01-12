@@ -126,6 +126,14 @@ echo '无聊ping'
 ping 127.0.0.1
 ```
 
+# 登陆指令合集
+
+```shell
+mysql -h 127.0.0.1 -P 3307 -u root -p123456
+redis-cli -h 127.0.0.1 -p 3312
+mongo 127.0.0.1:3313
+```
+
 # DOCKER常用指令记录
 ```shell
 // image build

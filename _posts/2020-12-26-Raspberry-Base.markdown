@@ -34,6 +34,24 @@ cd /etc/netplan/
 vi 50-cloud-init.yaml
 netplan apply
 ```
+- 50-cloud-init.yaml
+```yaml
+network:
+    ethernets:
+        eth0:
+            dhcp4: true
+            match:
+                driver: bcmgenet smsc95xx lan78xx
+            optional: true
+            set-name: eth0
+    wifis:
+        wlan0:
+                dhcp4: true
+                access-points:
+                      "ziroom801":
+                          password: "ziroomer002"
+    version: 2
+```
 - 保持wifi连接
 ```shell
 # 原因：网络静默一段时间后自动断开

@@ -5,9 +5,6 @@ date:   2020-12-24 13:28:10 +0800
 categories: docker
 ---
 
-# 写在前面
-几番折腾，x86下的docker image无法直接运行与arm架构下, 有尝试调整Dockerfile，奇奇怪怪的问题较多；为模拟真实服务端场景，决定放弃使用树莓派搭建集群；
-
 # 树莓派安装Ubuntu
 
 * 下载镜像
@@ -67,6 +64,9 @@ vi /etc/apt/sources.list
 sudo apt-get update
 apt list –installed
 ```
+
+# 树莓派构建集群弊端
+几番折腾，x86下的docker image无法直接运行与arm架构下, 有尝试调整Dockerfile，奇奇怪怪的问题较多。为模拟真实服务端场景，决定放弃树莓派搭建集群，寻找x86架构的机器或VPS。
 
 # 安装必备软件
 

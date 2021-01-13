@@ -1,11 +1,14 @@
 ---
 layout: post
-title:  "树莓派搭建集群前期准备"
+title:  "搭建集群环境准备"
 date:   2020-12-24 13:28:10 +0800
-categories: Raspberry
+categories: docker
 ---
 
-# 安装Ubuntu
+# 写在前面
+几番折腾，x86下的docker image无法直接运行与arm架构下, 有尝试调整Dockerfile，奇奇怪怪的问题较多；为模拟真实服务端场景，决定放弃使用树莓派搭建集群；
+
+# 树莓派安装Ubuntu
 
 * 下载镜像
 	- [官网镜像](https://cdimage.ubuntu.com/releases/20.10/release/)
@@ -25,8 +28,7 @@ diskutil unmountDisk /dev/disk5
 	- 连接键盘 屏幕
 	- 开机
 
-
-# 连接wifi
+# 树莓派连接wifi
 - 连接
 ```shell
 ip a
@@ -58,15 +60,13 @@ network:
 ping 192.168.1.1 > /dev/null &
 ```
 
-
-# apt-get源调整
+# ubuntu apt-get源调整
 ```shell
 vi /etc/apt/sources.list
 # 批量替换 :%s/ports.ubuntu.com/mirrors.aliyun.com/g
 sudo apt-get update
 apt list –installed
 ```
-
 
 # 安装必备软件
 
@@ -83,7 +83,7 @@ docker -v
 ```dockerfile
 FROM centos
 COPY mongodb-org-4.0.repo /etc/yum.repos.d/mongodb-org-4.0.repo
-RUN yum update -y
+RUN yum makecache
 RUN yum -y install java-1.8.0-openjdk.x86_64
 RUN yum install -y mysql.x86_64
 RUN yum install -y mysql-server.x86_64

@@ -76,9 +76,19 @@ apt list –installed
 sudo apt install docker.io
 docker -v
 ```
-
+- [参考文档](https://docs.docker.com/engine/install/centos/)
 # DB层image构建
-
+* Docker源替换
+/etc/docker/daemon.json
+```json
+{
+  "registry-mirrors": [
+    "https://docker.mirrors.ustc.edu.cn",
+    "https://hub-mirror.c.163.com",
+    "https://registry.docker-cn.com"
+  ]
+}
+```
 * Dockerfile准备
 ```dockerfile
 FROM centos

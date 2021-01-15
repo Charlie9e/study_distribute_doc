@@ -66,9 +66,9 @@ apt list –installed
 ```
 
 # 树莓派构建集群弊端
-几番折腾，x86下的docker image无法直接运行与arm架构下, 有尝试调整Dockerfile，奇奇怪怪的问题较多。为模拟真实服务端场景，决定放弃树莓派搭建集群，寻找x86架构的机器或VPS。
+几番折腾，x86下的docker image无法直接运行与arm架构下, 有尝试调整Dockerfile，奇奇怪怪的问题较多。为模拟真实服务端场景，决定放弃树莓派搭建集群，使用腾讯云(打call)。
 
-# 安装必备软件
+# 安装软件
 
 #### Docker
 - 安装
@@ -77,6 +77,16 @@ sudo apt install docker.io
 docker -v
 ```
 - [参考文档](https://docs.docker.com/engine/install/centos/)
+
+#### ES
+- [参考文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html)
+
+#### Mysql
+- [参考文档](https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/)
+
+#### Redis
+- [参考文档](https://redislabs.com/get-started-with-redis/)
+
 # DB层image构建
 * Docker源替换
 /etc/docker/daemon.json

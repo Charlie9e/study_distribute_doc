@@ -4,6 +4,9 @@ title:  "集群搭建环境准备"
 date:   2020-12-24 13:28:10 +0800
 categories: docker
 ---
+# 大纲
+
+![集群搭建大纲](/study_distribute_doc/_images/集群搭建大纲.jpg)
 
 # 树莓派安装Ubuntu
 
@@ -91,7 +94,7 @@ docker -v
 # Image构建
 
 * 写在前面
-  - 只有服务层适合Docker
+  - 只有应用层适合Docker
   - DB层/消息层/服务管理层等都不适合用Docker
 
 * DB层
@@ -182,7 +185,7 @@ redis-cli -h 127.0.0.1 -p 3312
 mongo 127.0.0.1:3313
 ```
 
-* DOCKER常用指令记录
+* Docker常用指令记录
 ```shell
 // image build
 docker image build -t charlie_java_env:0.0.1 .
@@ -213,7 +216,7 @@ docker rmi <image_id>
 docker rmi $(docker image ls -qa)
 ```
 
-* SHELL常用指令记录
+* Shell常用指令记录
 ```shell
 uname -a               # 查看内核/操作系统/CPU信息
 lsb_release -a         # 查看操作系统版本 (适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb)   

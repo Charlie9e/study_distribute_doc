@@ -6,7 +6,7 @@ categories: docker
 ---
 # 大纲
 
-![集群搭建大纲](/study_distribute_doc/_images/集群搭建大纲.jpg)
+![集群搭建大纲](https://github.com/Charlie9e/study_distribute_doc/blob/master/_images/%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E5%A4%A7%E7%BA%B2.jpg?raw=true)
 
 # 树莓派安装Ubuntu
 

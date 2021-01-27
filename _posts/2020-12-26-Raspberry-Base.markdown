@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "搭建集群环境准备"
+title:  "集群搭建环境准备"
 date:   2020-12-24 13:28:10 +0800
 categories: docker
 ---
@@ -20,20 +20,20 @@ sudo dd bs=4m if=ubuntu-20.10-preinstalled-server-arm64+raspi.img of=/dev/disk3
 diskutil unmountDisk /dev/disk5
 ```
 
-* 启动树莓派
+* 启动
 	- 插入sd卡
 	- 连接键盘 屏幕
 	- 开机
 
-# 树莓派连接wifi
-- 连接
+* 连接wifi
+	- 指令
 ```shell
 ip a
 cd /etc/netplan/
 vi 50-cloud-init.yaml
 netplan apply
 ```
-- 50-cloud-init.yaml
+	- 50-cloud-init.yaml
 ```yaml
 network:
     ethernets:
@@ -51,13 +51,13 @@ network:
                           password: "ziroomer002"
     version: 2
 ```
-- 保持wifi连接
+* 保持wifi连接
 ```shell
 # 原因：网络静默一段时间后自动断开
 ping 192.168.1.1 > /dev/null &
 ```
 
-# ubuntu apt-get源调整
+* ubuntu apt-get源调整
 ```shell
 vi /etc/apt/sources.list
 # 批量替换 :%s/ports.ubuntu.com/mirrors.aliyun.com/g
@@ -65,31 +65,37 @@ sudo apt-get update
 apt list –installed
 ```
 
-# 树莓派构建集群弊端
-几番折腾，x86下的docker image无法直接运行与arm架构下, 有尝试调整Dockerfile，奇奇怪怪的问题较多。为模拟真实服务端场景，决定放弃树莓派搭建集群，使用腾讯云(打call)。
+* 树莓派构建集群弊端
+
+几番折腾，x86下的docker image无法直接运行于arm架构下, 有尝试调整Dockerfile，奇奇怪怪的问题较多。为模拟真实服务端场景，决定放弃树莓派搭建集群，使用腾讯云。
 
 # 安装软件
 
-#### Docker
-- 安装
+* Docker
+	- 安装
 ```shell
 sudo apt install docker.io
 docker -v
 ```
-- [参考文档](https://docs.docker.com/engine/install/centos/)
+	- [参考文档](https://docs.docker.com/engine/install/centos/)
 
-#### ES
-- [参考文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html)
+* ES
+	- [参考文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html)
 
-#### Mysql
-- [参考文档](https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/)
+* Mysql
+	- [参考文档](https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/)
 
-#### Redis
-- [参考文档](https://redislabs.com/get-started-with-redis/)
+* Redis
+	- [参考文档](https://redislabs.com/get-started-with-redis/)
 
-# DB层image构建
-* Docker源替换
-/etc/docker/daemon.json
+# Image构建
+
+* 写在前面
+  - 只有服务层适合Docker
+  - DB层/消息层/服务管理层等都不适合用Docker
+
+* DB层
+	* Docker源替换 /etc/docker/daemon.json
 ```json
 {
   "registry-mirrors": [
@@ -99,7 +105,7 @@ docker -v
   ]
 }
 ```
-* Dockerfile准备
+	* Dockerfile准备
 ```dockerfile
 FROM centos
 COPY mongodb-org-4.0.repo /etc/yum.repos.d/mongodb-org-4.0.repo
@@ -119,7 +125,7 @@ CMD /root/start_up.sh
 EXPOSE 3306 33060 6379 27017
 ```
 
-* 其他文件
+	* 其他文件
 1. mongodb-org-4.0.repo
 ```
 [mngodb-org]
@@ -164,28 +170,50 @@ echo '无聊ping'
 ping 127.0.0.1
 ```
 
-# 登陆指令合集
+* 服务层
 
+
+# 指令合集
+
+* 登陆指令合集
 ```shell
 mysql -h 127.0.0.1 -P 3307 -u root -p123456
 redis-cli -h 127.0.0.1 -p 3312
 mongo 127.0.0.1:3313
 ```
 
-# DOCKER常用指令记录
+* DOCKER常用指令记录
 ```shell
 // image build
 docker image build -t charlie_java_env:0.0.1 .
 // image 启动(端口映射, 让外部可访问到docker;)
 docker container run -p 3310:3306 -p 3311:33060 -p 3312:6379 -dit --privileged=true charlie_java_env:0.0.1
 // 进入容器
-docker exec -it <containerid> /bin/bash 
+docker exec -it <container_id> /bin/bash 
 // 容器端口
-
 docker port <containerid>
+// 查看container
+docker container ls -a
+docker container ls -a | awk '{print$1}'
+docker container ls -qa
+docker ps -a
+docker ps -a | awk '{print$1}'
+docker ps -qa
+// 停止container
+docker stop <container_id>
+docker stop $(docker container ls -qa)
+// 删除container
+docker rm <container_id>
+docker rm $(docker container ls -qa)
+// 查看image
+docker image ls
+docker image ls -qa
+// 删除image
+docker rmi <image_id>
+docker rmi $(docker image ls -qa)
 ```
 
-# SHELL常用指令记录
+* SHELL常用指令记录
 ```shell
 uname -a               # 查看内核/操作系统/CPU信息
 lsb_release -a         # 查看操作系统版本 (适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb)   
@@ -225,8 +253,7 @@ chkconfig --list       # 列出所有系统服务
 chkconfig --list | grep on    # 列出所有启动的系统服务
 ```
 
-# Jekyll指令合集
-
+* Jekyll指令合集
 ```shell
 bundle exec jekyll serve -H 0.0.0.0
 ```

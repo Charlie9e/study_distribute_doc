@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  "集群搭建环境准备"
+title:  "DB层+应用层环境搭建"
 date:   2020-12-24 13:28:10 +0800
 categories: docker
 ---
 # 大纲
 
-- 树莓派准备
+- 树莓派
 - DB层搭建
 - 应用层搭建
 

@@ -10,13 +10,14 @@ categories: docker
 - DB层搭建
 - 应用层搭建
 
-# 树莓派
+# 服务器准备
 
-* 下载ubuntu镜像
-	- [官网镜像](https://cdimage.ubuntu.com/releases/20.10/release/)
-	- [清华镜像](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/ubuntu/releases/20.10/release/)
+* 树莓派
+	* 下载ubuntu镜像
+		- [官网镜像](https://cdimage.ubuntu.com/releases/20.10/release/)
+		- [清华镜像](https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/ubuntu/releases/20.10/release/)
 
-* 烧录镜像
+	* 烧录镜像
 ```shell
 df -h
 diskutil list
@@ -25,20 +26,20 @@ sudo dd bs=4m if=ubuntu-20.10-preinstalled-server-arm64+raspi.img of=/dev/disk3
 diskutil unmountDisk /dev/disk5
 ```
 
-* 启动
-	- 插入sd卡
-	- 连接键盘 屏幕
-	- 开机
+	* 启动
+		- 插入sd卡
+		- 连接键盘 屏幕
+		- 开机
 
-* 连接wifi
-	- 指令
+	* 连接wifi
+		- 指令
 ```shell
 ip a
 cd /etc/netplan/
 vi 50-cloud-init.yaml
 netplan apply
 ```
-	- 50-cloud-init.yaml
+		- 50-cloud-init.yaml
 ```yaml
 network:
     ethernets:
@@ -56,13 +57,13 @@ network:
                           password: "ziroomer002"
     version: 2
 ```
-* 保持wifi连接
+	* 保持wifi连接
 ```shell
 # 原因：网络静默一段时间后自动断开
 ping 192.168.1.1 > /dev/null &
 ```
 
-* ubuntu apt-get源调整
+	* ubuntu apt-get源调整
 ```shell
 vi /etc/apt/sources.list
 # 批量替换 :%s/ports.ubuntu.com/mirrors.aliyun.com/g
@@ -70,9 +71,9 @@ sudo apt-get update
 apt list –installed
 ```
 
-* 树莓派构建集群弊端
+* 树莓派弊端
 
-几番折腾，x86下的docker image无法直接运行于arm架构下, 有尝试调整Dockerfile，奇奇怪怪的问题较多。为模拟真实服务端场景，决定放弃树莓派搭建集群，使用腾讯云。
+几番折腾，x86下的docker image无法直接运行于arm架构下, 有尝试调整Dockerfile，奇奇怪怪的问题较多。为模拟真实服务端场景，放弃树莓派搭建集群，直接使用腾讯云。
 
 # 安装软件
 
@@ -96,10 +97,10 @@ docker -v
 # Image构建
 
 * 写在前面
-  - 只有应用层适合Docker
-  - DB层/消息层/服务管理层等都不适合用Docker
+  - 无状态的应用层适合Docker
+  - DB层/消息层/服务管理层等有状态的服务都不适合用Docker
 
-* DB层(Docker镜像方式)
+* DB层(Docker方式)
 	* Docker源替换 /etc/docker/daemon.json
 ```json
 {

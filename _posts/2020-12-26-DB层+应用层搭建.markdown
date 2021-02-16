@@ -30,7 +30,7 @@ diskutil unmountDisk /dev/disk5
 		- 插入sd卡
 		- 连接键盘 屏幕
 		- 开机
-
+	
 	* 连接wifi
 		- 指令
 ```shell
@@ -273,3 +273,24 @@ SHOW GLOBAL VARIABLES LIKE '%log%';
 ```
 
 * 服务层
+	* [参考文档](https://packages.gitlab.com/gitlab/gitlab-ce)
+	* Dockerfile
+```
+FROM centos
+RUN yum -y install java-1.8.0-openjdk.x86_64
+RUN mkdir -p /charlie/jar
+RUN mkdir -p /charlie/project
+RUN mkdir -p /charlie/data
+RUN mkdir -p /charlie/log
+RUN mkdir -p /charlie/script
+COPY spring-cloud-demo-1.0.0-SNAPSHOT.jar /charlie/jar
+COPY start_up.sh /charlie/script
+RUN chmod 777 /charlie/script/start_up.sh
+RUN chmod 777 /charlie/jar/spring-cloud-demo-1.0.0-SNAPSHOT.jar
+CMD /charlie/script/start_up.sh
+EXPOSE 10999
+```
+	* start_up.sh
+```
+java -server -Xms256M -Xmx512M -Xmn256M -Xss1M -XX:MetaspaceSize=256M -XX:MaxMetaspaceSize=256M -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelInitialMarkEnabled -XX:+CMSParallelRemarkEnabled -XX:+UseFastAccessorMethods -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/charlie/log/spring-cloud-1.0.0-SNAPSHOT.jar.log -Duser.timezone=GMT+8 -Djava.security.egd=/dev/urandom -Dfile.encoding=UTF-8 -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses -agentlib:jdwp=transport=dt_socket,server=y,address=8001,suspend=n -jar /charlie/jar/spring-cloud-demo-1.0.0-SNAPSHOT.jar
+```

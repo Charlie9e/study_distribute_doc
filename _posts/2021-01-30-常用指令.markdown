@@ -119,3 +119,19 @@ sudo pfctl -f /etc/pf.conf
 sudo pfctl -e
 ```
 
+* ZK指令合集
+
+```shell
+# zk服务启动/关闭/重启/status
+zkServer start
+zkServer stop
+zkServer restart
+zkServer status
+# zk链接/
+zkCli -server localhost:2181
+ls path # 显示指定目录下的第一级目录
+ls2 path # 显示指定目录下的第一级目录、以及对应节点更新的次数等信息
+create path value  # 创建指定目录的节点 并设置值为value
+delete path  # 删除指定节点，（注意：先删除子节点、在删除父节点）
+```
+
